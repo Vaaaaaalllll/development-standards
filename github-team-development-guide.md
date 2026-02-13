@@ -1420,6 +1420,153 @@ Each function still has one responsibility, and the code remains understandable 
 
 ---
 
+## 10. Pre-commit and Ruff
+
+Automated tools help maintain code quality and consistency without requiring manual effort. This section covers two important tools: pre-commit hooks and Ruff.
+
+### What is Pre-commit?
+
+Pre-commit is a framework that runs checks on your code before you commit it. These checks are called "hooks" and they run automatically when you try to commit.
+
+**How it works**:
+1. You write code and try to commit
+2. Pre-commit runs configured checks (linters, formatters, tests)
+3. If checks pass, the commit succeeds
+4. If checks fail, the commit is blocked and you see what needs to be fixed
+
+**Think of it as**: A quality gate that prevents bad code from being committed, like a spell-checker that runs before you send an email.
+
+**Common pre-commit hooks**:
+- Code formatting (ensures consistent style)
+- Linting (finds potential bugs and style issues)
+- Security checks (finds hardcoded secrets, vulnerable dependencies)
+- File checks (prevents committing large files, ensures proper line endings)
+
+### What is Ruff?
+
+Ruff is a fast Python linter and code formatter. It checks your Python code for:
+- Style violations (PEP 8 compliance)
+- Potential bugs (unused variables, undefined names)
+- Code quality issues (complex functions, duplicate code)
+- Import organization
+
+**Why Ruff**:
+- Very fast (written in Rust)
+- Combines multiple tools (replaces flake8, isort, and more)
+- Catches errors before they reach production
+- Enforces consistent code style across the team
+
+**What Ruff does**:
+- Checks code formatting (spacing, line length, etc.)
+- Finds unused imports and variables
+- Detects potential bugs
+- Suggests code improvements
+- Can automatically fix many issues
+
+### Why Linting Matters
+
+Linting is the process of analyzing code for potential errors, bugs, and style issues. Here's why it matters:
+
+**Catches Bugs Early**: Finds errors before code reaches production or even before it's reviewed.
+
+**Enforces Consistency**: Ensures all team members write code in the same style, making it easier to read and maintain.
+
+**Saves Time**: Automated checks are faster than manual code reviews for style issues.
+
+**Reduces Review Burden**: Reviewers can focus on logic and architecture instead of formatting.
+
+**Prevents Common Mistakes**: Catches issues like unused variables, undefined names, or incorrect imports.
+
+**Example**: Without linting, you might commit:
+```python
+def calculate_total(items):
+    total = 0
+    for item in items:
+        total += item.price
+    return total
+    unused_var = 42  # This will never execute
+```
+
+Ruff would catch that `unused_var` is never used and flag it as an issue.
+
+### Why Formatting Consistency Matters
+
+Consistent formatting makes code:
+- **Easier to Read**: When all code looks the same, you can focus on logic instead of style differences
+- **Easier to Review**: PRs show actual changes, not formatting differences
+- **Easier to Maintain**: No debates about spacing or line breaks
+- **More Professional**: Consistent code looks polished and well-maintained
+
+**Example of Inconsistency**:
+```python
+# Developer A's code
+def get_user(id):
+    return db.query(User).filter(User.id==id).first()
+
+# Developer B's code
+def get_user( id ):
+    return db.query(User).filter( User.id == id ).first()
+```
+
+Both do the same thing, but the formatting is different. This creates unnecessary differences in PRs and makes code harder to read.
+
+**With consistent formatting**:
+```python
+# Everyone's code looks the same
+def get_user(id):
+    return db.query(User).filter(User.id == id).first()
+```
+
+### How These Tools Protect Code Quality Before Merging
+
+Pre-commit and Ruff work together to ensure code quality:
+
+**Before Commit**:
+1. You write code and try to commit
+2. Pre-commit runs Ruff (and other tools)
+3. Ruff checks formatting and finds issues
+4. If issues are found, commit is blocked
+5. You fix the issues and try again
+6. Once checks pass, commit succeeds
+
+**In CI/CD Pipeline**:
+1. You create a Pull Request
+2. GitHub Actions (or similar) runs the same checks
+3. PR can't be merged until checks pass
+4. Ensures no one bypasses local checks
+
+**Benefits**:
+- **Prevents Bad Code**: Can't commit code that doesn't meet standards
+- **Automatic Fixes**: Many formatting issues can be auto-fixed
+- **Team Consistency**: Everyone's code follows the same rules
+- **Faster Reviews**: Reviewers don't waste time on style issues
+- **Fewer Bugs**: Catches potential errors before they cause problems
+
+**Example Workflow**:
+```bash
+# You try to commit
+git commit -m "Add user authentication"
+
+# Pre-commit runs automatically
+Ruff check: Found 3 issues
+- Line 45: Unused import 'os'
+- Line 67: Line too long (120 > 88)
+- Line 89: Missing blank line
+
+# Commit is blocked
+# You fix the issues (or Ruff fixes them automatically)
+ruff check --fix
+
+# Try committing again
+git commit -m "Add user authentication"
+# Pre-commit passes, commit succeeds
+```
+
+**Best Practice**: Set up pre-commit and Ruff when starting a project. It's much easier to maintain code quality from the start than to fix formatting issues across thousands of lines later.
+
+---
+
+
 
 
 
