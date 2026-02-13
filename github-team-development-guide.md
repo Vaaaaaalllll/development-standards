@@ -1824,6 +1824,203 @@ def test_get_user():
 
 ---
 
+## 12. Issues and Task Tracking
+
+GitHub Issues are a built-in way to track tasks, bugs, features, and discussions. Properly using issues helps teams stay organized and ensures nothing falls through the cracks.
+
+### What is a GitHub Issue?
+
+A GitHub Issue is a way to track work that needs to be done. Think of it as a to-do list item that can be:
+- Assigned to team members
+- Labeled and categorized
+- Linked to code changes (Pull Requests)
+- Discussed and commented on
+- Closed when completed
+
+Issues can represent:
+- **Bugs**: Something that's broken and needs fixing
+- **Features**: New functionality to be added
+- **Tasks**: Work that needs to be done
+- **Questions**: Things that need clarification
+- **Improvements**: Enhancements to existing features
+
+### How to Write a Clear Issue
+
+A well-written issue makes it easy for developers to understand what needs to be done. A poor issue leads to confusion, questions, and wasted time.
+
+**Good Issue Structure**:
+
+**Title**: Clear and specific
+- Good: "User login fails with invalid email format"
+- Bad: "Bug" or "Problem" or "Issue"
+
+**Description should include**:
+
+1. **Problem**: What is wrong or what needs to be done?
+2. **Expected Outcome**: What should happen?
+3. **Steps to Reproduce** (for bugs): How can someone see the problem?
+4. **Acceptance Criteria**: How do we know it's done correctly?
+5. **Additional Context**: Screenshots, error messages, related issues
+
+**Example of a Good Bug Issue**:
+
+```markdown
+## Problem
+User login fails when email contains uppercase letters, even though the email is valid.
+
+## Expected Outcome
+Users should be able to log in with emails in any case (test@example.com, Test@Example.com, TEST@EXAMPLE.COM).
+
+## Steps to Reproduce
+1. Go to login page
+2. Enter email: Test@Example.com
+3. Enter password
+4. Click login
+5. See error: "Invalid email format"
+
+## Current Behavior
+Login fails with "Invalid email format" error.
+
+## Expected Behavior
+Login should succeed regardless of email case.
+
+## Acceptance Criteria
+- [ ] Login works with lowercase emails
+- [ ] Login works with mixed case emails
+- [ ] Login works with uppercase emails
+- [ ] Email validation is case-insensitive
+- [ ] Tests added for case-insensitive login
+
+## Additional Context
+- Error occurs in `auth_service.py` line 45
+- Related to issue #123 (email validation)
+```
+
+**Example of a Good Feature Issue**:
+
+```markdown
+## Problem
+Users need to be able to reset their passwords if they forget them.
+
+## Expected Outcome
+Users can request a password reset via email and set a new password.
+
+## Acceptance Criteria
+- [ ] "Forgot password" link on login page
+- [ ] Password reset request endpoint
+- [ ] Email sent with reset link
+- [ ] Reset link expires after 1 hour
+- [ ] User can set new password via reset link
+- [ ] Old password is invalidated after reset
+- [ ] Tests added for password reset flow
+
+## Additional Context
+- Should use JWT tokens for reset links
+- Email template needs to be designed
+- Related to authentication system (issue #45)
+```
+
+### Proper Issue Structure
+
+Every issue should follow a consistent structure:
+
+**1. Problem**
+- Clear description of what needs to be addressed
+- Context about why this matters
+- Current state vs desired state
+
+**2. Expected Outcome**
+- What success looks like
+- How users or the system will benefit
+
+**3. Acceptance Criteria**
+- Specific, testable conditions that must be met
+- Written as checkboxes: `- [ ]`
+- Clear enough that anyone can verify completion
+
+**4. Additional Context** (optional)
+- Screenshots or error messages
+- Related issues or PRs
+- Technical notes or constraints
+- Design mockups or references
+
+### Labels
+
+Labels help categorize and prioritize issues:
+
+**Common Label Types**:
+- **Type**: `bug`, `feature`, `enhancement`, `documentation`, `question`
+- **Priority**: `high-priority`, `low-priority`, `critical`
+- **Status**: `in-progress`, `blocked`, `needs-review`
+- **Area**: `frontend`, `backend`, `database`, `api`
+- **Size**: `small`, `medium`, `large` (effort estimation)
+
+**Benefits of Labels**:
+- Quickly filter issues by type or priority
+- See what areas need attention
+- Track work distribution across the team
+- Identify common problem areas
+
+### Assigning Developers
+
+Assign issues to team members to clarify ownership:
+
+**When to assign**:
+- Someone volunteers to work on it
+- Task is allocated during planning
+- Developer has relevant expertise
+- Work needs to be distributed
+
+**Benefits**:
+- Clear ownership and responsibility
+- Prevents duplicate work
+- Helps track individual workload
+- Makes it easy to see who to ask questions
+
+**Best Practice**: Don't assign issues until someone is ready to work on them. Unassigned issues can be picked up by anyone. Assign when work begins.
+
+### Linking PR to Issue
+
+When you create a Pull Request that addresses an issue, link them together:
+
+**How to link**:
+- In PR description, mention: `Closes #123` or `Fixes #123`
+- GitHub will automatically link them
+- When PR is merged, issue will be automatically closed
+
+**Benefits**:
+- Shows what code changes address which issues
+- Provides context for reviewers
+- Automatically closes issues when work is done
+- Creates a clear history of what was fixed
+
+**Example PR Description**:
+```markdown
+## Changes
+- Added password reset functionality
+- Implemented email sending with reset tokens
+- Added password reset endpoint
+
+## Testing
+- Added unit tests for reset flow
+- Tested email delivery
+- Verified token expiration
+
+Closes #123
+```
+
+**Common linking keywords**:
+- `Closes #123` - Closes the issue when PR is merged
+- `Fixes #123` - Same as Closes
+- `Resolves #123` - Same as Closes
+- `Related to #123` - Links but doesn't auto-close
+- `See #123` - References issue for context
+
+**Best Practice**: Always link PRs to issues. This creates a clear trail from problem to solution and helps track project progress.
+
+---
+
+
 
 
 
