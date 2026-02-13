@@ -594,6 +594,186 @@ Consistent branch naming provides several benefits:
 
 ---
 
+## 6. Proper Commits
+
+### What is a Commit?
+
+A commit is a snapshot of your code at a specific point in time. When you commit, you're saving your changes to the Git history with a message describing what you did.
+
+Think of a commit like saving a game with a descriptive save name. Instead of "save1" or "checkpoint", you write "defeated dragon boss" or "completed level 3". Later, you can return to that exact state and understand what had been accomplished.
+
+Each commit includes:
+- The changes you made (which files were modified and how)
+- A commit message explaining what and why
+- Your name and timestamp
+- A unique identifier (commit hash)
+
+### Why Small Commits are Better
+
+Small, focused commits are much better than large, sweeping commits. Here's why:
+
+**Easier to Review**: Reviewers can understand small changes quickly. A commit that changes 50 files across 10 features is overwhelming and error-prone.
+
+**Easier to Debug**: If a bug appears, you can identify which specific commit introduced it. With large commits, you have to search through many changes.
+
+**Easier to Revert**: If something breaks, you can revert just the problematic commit without undoing unrelated work.
+
+**Better History**: The commit history tells a clear story of how the project evolved. Large commits create gaps in understanding.
+
+**Less Conflict**: Smaller commits reduce the chance of merge conflicts with other developers' work.
+
+**Example of Bad Practice**:
+```
+Commit: "Updated everything"
+- Changed 30 files
+- Added 5 features
+- Fixed 10 bugs
+- Updated dependencies
+- Refactored 3 modules
+```
+
+**Example of Good Practice**:
+```
+Commit 1: "Add user authentication endpoint"
+Commit 2: "Add password validation rules"
+Commit 3: "Add unit tests for authentication"
+Commit 4: "Update dependencies in requirements.txt"
+```
+
+Each commit does one thing and does it well.
+
+### Commit Message Format Suggestions
+
+A good commit message clearly explains what changed and why. Here are some format suggestions:
+
+**Basic Format**:
+```
+<type>: <short description>
+
+<optional longer explanation>
+```
+
+**Common Types**:
+- `feat`: New feature
+- `fix`: Bug fix
+- `docs`: Documentation changes
+- `style`: Code style changes (formatting, no logic change)
+- `refactor`: Code restructuring without changing functionality
+- `test`: Adding or updating tests
+- `chore`: Maintenance tasks (dependencies, config)
+- `perf`: Performance improvements
+
+**Examples**:
+```
+feat: Add user login API endpoint
+
+Implements POST /api/auth/login endpoint with email and password
+authentication. Returns JWT token on successful login.
+
+fix: Resolve timeout error in payment processing
+
+The payment service was timing out after 30 seconds. Increased
+timeout to 60 seconds and added retry logic for failed requests.
+
+docs: Update API documentation for user endpoints
+
+Added examples and parameter descriptions for all user-related
+endpoints in the API documentation.
+```
+
+### Examples of Good vs Bad Commit Messages
+
+**Bad Commit Messages**:
+
+```
+"update"
+```
+Problem: Too vague. What was updated?
+
+```
+"fix"
+```
+Problem: What was fixed? Why was it broken?
+
+```
+"changes"
+```
+Problem: Meaningless. Every commit has changes.
+
+```
+"WIP"
+```
+Problem: "Work in Progress" doesn't explain what you're working on.
+
+```
+"asdf"
+```
+Problem: Not professional and provides no information.
+
+```
+"Fixed the thing that was broken"
+```
+Problem: Too vague. What thing? How was it broken?
+
+**Good Commit Messages**:
+
+```
+feat: Add password reset functionality
+
+Users can now request password reset via email. Includes:
+- Password reset request endpoint
+- Email template with reset link
+- Token expiration after 1 hour
+- Password validation on reset
+```
+
+```
+fix: Resolve memory leak in data processing job
+
+The ETL job was not releasing database connections after use,
+causing memory to accumulate over time. Added proper connection
+cleanup in finally blocks.
+```
+
+```
+refactor: Extract authentication logic into separate service
+
+Moved authentication methods from UserController to AuthService
+to improve separation of concerns and enable reuse across modules.
+```
+
+```
+docs: Add setup instructions for local development
+
+Updated README with step-by-step instructions for setting up
+the development environment, including required environment
+variables and database setup.
+```
+
+### Why "update" or "fix" Alone is Bad Practice
+
+Single-word commit messages like "update" or "fix" are problematic because:
+
+**No Context**: Future you (or your teammates) won't remember what was updated or fixed. When looking at commit history months later, these messages are useless.
+
+**Hard to Search**: If you need to find when a specific feature was added or bug was fixed, vague messages make searching impossible.
+
+**Poor Code Review**: Reviewers can't understand the purpose of changes from the commit message alone.
+
+**Difficult Debugging**: When a bug appears, you can't easily identify which commit might have introduced it.
+
+**Unprofessional**: Vague commit messages suggest carelessness and lack of attention to detail.
+
+**Better Approach**: Always include:
+- What was changed (specific files or features)
+- Why it was changed (the problem it solves)
+- Context if needed (related issues, dependencies)
+
+**Remember**: Commit messages are communication. They help your future self and your teammates understand the project's evolution. Take the extra 30 seconds to write a clear message - it saves hours of confusion later.
+
+---
+
+
 
 
 
