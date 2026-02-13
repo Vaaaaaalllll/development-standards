@@ -2136,6 +2136,253 @@ Blockers are issues that prevent you from making progress. Raising them early he
 
 ---
 
+## 14. What to Say During Team Meetings (Very Important Section)
+
+Team meetings are opportunities to align on work, clarify requirements, and prevent problems before they happen. This section covers critical questions to ask before starting work and before merging code.
+
+### Before Starting Any New Feature or Making Structural Changes
+
+Before you begin coding, especially for new features or significant changes, clarify these points during team meetings:
+
+#### What is the Goal of the Feature?
+
+**Why it matters**: Understanding the "why" helps you make better technical decisions and ensures you're building the right thing.
+
+**Questions to ask**:
+- What problem does this solve?
+- Who is the end user?
+- What's the business value?
+- Are there any constraints or requirements I should know about?
+
+**Example**: "Before I start on the user dashboard, can we clarify the goal? Is this for end users to see their data, or for admins to manage users? This will affect the design and permissions."
+
+#### Is This Replacing Something?
+
+**Why it matters**: If you're replacing existing functionality, you need to understand what will break and how to migrate.
+
+**Questions to ask**:
+- Is there existing code that does something similar?
+- Should I remove the old code or keep both versions?
+- Do we need to migrate existing data?
+- Will this break any integrations?
+
+**Example**: "I'm implementing a new payment processor. Should I remove the old payment code, or keep both for a transition period? Are there any existing transactions using the old system?"
+
+#### Will This Affect Existing Modules?
+
+**Why it matters**: Changes to shared code can break other features. Understanding dependencies prevents conflicts.
+
+**Questions to ask**:
+- Does this touch any shared modules or services?
+- Will other developers' work be affected?
+- Are there any dependencies I should be aware of?
+- Should I coordinate with anyone working on related features?
+
+**Example**: "I'm refactoring the authentication service. This will affect the user service and API routes. Should I coordinate with the team working on the user profile feature?"
+
+#### Which Branch Will This Go Into?
+
+**Why it matters**: Knowing the target branch helps you create the right feature branch and understand the deployment flow.
+
+**Questions to ask**:
+- Should this branch from `main` or `develop`?
+- Is this going directly to production or through staging?
+- Are there any release timelines I should be aware of?
+
+**Example**: "I'm working on a critical bug fix. Should this branch from `main` for a hotfix, or go through `develop` first?"
+
+#### Is Database Migration Required?
+
+**Why it matters**: Database changes affect everyone and need careful planning.
+
+**Questions to ask**:
+- Do I need to create new tables or modify existing ones?
+- Will this migration affect production data?
+- Do we need to test the migration on staging first?
+- Should I coordinate with the database team?
+
+**Example**: "I'm adding a new field to the user table. Should I create a migration script? Will this require downtime, or can it be done with zero-downtime migration?"
+
+#### Is Backward Compatibility Needed?
+
+**Why it matters**: Breaking changes can affect existing integrations and users.
+
+**Questions to ask**:
+- Will this break existing API endpoints?
+- Do we need to support both old and new versions?
+- Are there external systems depending on current behavior?
+- Should I version the API?
+
+**Example**: "I'm changing the user API response format. Should I maintain the old format for existing clients, or can we do a breaking change with advance notice?"
+
+#### What are the Risks?
+
+**Why it matters**: Identifying risks early helps the team prepare and mitigate issues.
+
+**Questions to ask**:
+- What could go wrong?
+- Are there performance implications?
+- Security concerns?
+- Data loss risks?
+- Integration failures?
+
+**Example**: "I'm implementing a new caching layer. The risk is that if the cache fails, we might serve stale data. Should I implement a fallback mechanism?"
+
+#### Who is Responsible?
+
+**Why it matters**: Clear ownership prevents work from falling through the cracks.
+
+**Questions to ask**:
+- Who is the primary developer?
+- Who will review the code?
+- Who needs to test it?
+- Who will deploy it?
+- Who should I contact if I have questions?
+
+**Example**: "I'm taking ownership of the payment feature. Sarah will review, and Mike will handle deployment. Is that correct?"
+
+#### What is the Deadline?
+
+**Why it matters**: Understanding timelines helps prioritize and plan work.
+
+**Questions to ask**:
+- When is this needed?
+- Is this deadline flexible?
+- Are there dependencies on this timeline?
+- What happens if we miss the deadline?
+
+**Example**: "The deadline is end of next week. Is that firm, or can we adjust if we encounter issues? Are other features depending on this?"
+
+#### How Will It Be Tested?
+
+**Why it matters**: Understanding testing requirements ensures quality and prevents surprises.
+
+**Questions to ask**:
+- What level of testing is required?
+- Do we need unit tests, integration tests, or both?
+- Who will do manual testing?
+- Are there specific test scenarios?
+- Do we need performance testing?
+
+**Example**: "For this feature, should I write unit tests for all functions, or focus on integration tests for the main flow? Who will do the manual QA testing?"
+
+#### Does It Need Docker Update?
+
+**Why it matters**: Changes to dependencies or environment setup require Docker updates.
+
+**Questions to ask**:
+- Are we adding new dependencies?
+- Do we need new environment variables?
+- Are there new services or databases?
+- Should I update docker-compose.yml?
+
+**Example**: "I'm adding Redis for caching. Should I update the Docker configuration to include a Redis container, or is there already one I should use?"
+
+#### Does It Affect CI/CD?
+
+**Why it matters**: Changes to build processes, tests, or deployment need CI/CD updates.
+
+**Questions to ask**:
+- Do we need new test steps?
+- Are there new environment variables for CI?
+- Do we need to update deployment scripts?
+- Should I modify GitHub Actions workflows?
+
+**Example**: "I'm adding a new test suite. Should I update the GitHub Actions workflow to run these tests, or are they already covered?"
+
+### Before Merging
+
+Before merging your code, confirm these points during team meetings or in PR discussions:
+
+#### Has It Been Tested Locally?
+
+**Why it matters**: Local testing catches most issues before they reach the team.
+
+**Questions to confirm**:
+- Did you run the code locally?
+- Does it work as expected?
+- Did you test edge cases?
+- Did you test error scenarios?
+
+**Example**: "Yes, I tested locally. The feature works correctly, and I tested both success and error cases. All tests pass."
+
+#### Has Someone Reviewed It?
+
+**Why it matters**: Code review catches bugs and ensures quality standards.
+
+**Questions to confirm**:
+- Has at least one person reviewed the PR?
+- Are all review comments addressed?
+- Is the reviewer satisfied with the changes?
+
+**Example**: "Sarah reviewed the PR and approved it. I addressed her two comments about error handling."
+
+#### Are Tests Passing?
+
+**Why it matters**: Passing tests ensure code quality and prevent regressions.
+
+**Questions to confirm**:
+- Do all existing tests pass?
+- Are new tests included?
+- Do CI/CD tests pass?
+- Are there any flaky tests?
+
+**Example**: "All tests pass locally and in CI. I added 5 new unit tests covering the main scenarios."
+
+#### Are Secrets Handled Properly?
+
+**Why it matters**: Exposed secrets are a security risk.
+
+**Questions to confirm**:
+- Are any secrets hardcoded in the code?
+- Are secrets using environment variables or GitHub Secrets?
+- Are .env files in .gitignore?
+- Have you checked for accidentally committed secrets?
+
+**Example**: "No secrets in code. I'm using environment variables for API keys, and they're configured in GitHub Secrets for CI/CD."
+
+#### Are Environment Variables Updated?
+
+**Why it matters**: Missing environment variables cause deployment failures.
+
+**Questions to confirm**:
+- Are new environment variables documented?
+- Have they been added to GitHub Secrets (if needed)?
+- Are they in the .env.example file?
+- Have staging/production environments been updated?
+
+**Example**: "I added two new environment variables. They're documented in the README and added to GitHub Secrets. The .env.example file is updated."
+
+### Encouraging Questions and Alignment
+
+**Ask Questions Early**: Don't wait until you're stuck. Ask questions during planning and early in development.
+
+**Clarify Assumptions**: If you're making assumptions, state them and ask for confirmation. Don't assume everyone thinks the same way.
+
+**Don't Code Silently**: If you're working on something significant, mention it in team meetings. Don't surprise the team with major changes.
+
+**Example of Good Communication**:
+"I'm planning to refactor the authentication module next week. This will affect how other modules authenticate. I want to make sure this won't conflict with anyone's current work. Should I coordinate with the team first?"
+
+### Why Alignment Reduces Conflict and Rework
+
+**Prevents Duplicate Work**: When everyone knows what others are working on, you avoid building the same thing twice.
+
+**Reduces Merge Conflicts**: Understanding dependencies helps you avoid modifying the same files simultaneously.
+
+**Catches Issues Early**: Discussing approach before coding catches problems when they're easy to fix, not after days of work.
+
+**Saves Time**: A 10-minute discussion can save hours of rework.
+
+**Improves Quality**: Alignment ensures code meets requirements and fits with the rest of the system.
+
+**Builds Team Understanding**: Regular alignment helps everyone understand the codebase and project direction.
+
+**Best Practice**: Make alignment a habit. Before starting significant work, spend 5-10 minutes in a team meeting clarifying these points. It's an investment that pays off in reduced conflicts and better code quality.
+
+---
+
+
 
 
 
