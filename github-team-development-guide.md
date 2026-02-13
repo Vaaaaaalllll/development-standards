@@ -773,6 +773,198 @@ Single-word commit messages like "update" or "fix" are problematic because:
 
 ---
 
+## 7. Pull Requests (PR)
+
+### What is a Pull Request?
+
+A Pull Request (PR) is a request to merge your branch's changes into another branch (usually `main` or `develop`). It's a way to propose changes and have them reviewed before they become part of the main codebase.
+
+Think of a Pull Request like submitting a document for review before it's published. You've written your changes, but before they become official, someone else reviews them to ensure quality, correctness, and that they fit with the rest of the project.
+
+A PR includes:
+- The changes you made (all commits in your branch)
+- A description of what you did and why
+- A place for reviewers to comment and discuss
+- Automated checks (tests, linting) that run automatically
+
+### Why PR is Required
+
+Pull Requests are essential for team development because they:
+
+**Ensure Code Quality**: Code is reviewed by other developers before it's merged, catching bugs and issues early.
+
+**Share Knowledge**: Reviewers learn about new features and approaches. Authors get feedback and suggestions.
+
+**Maintain Standards**: Ensures all code follows team conventions and best practices.
+
+**Prevent Breaking Changes**: Reviewers can spot potential issues that might break existing functionality.
+
+**Document Decisions**: PR discussions create a record of why certain decisions were made.
+
+**Enable Collaboration**: Team members can discuss approaches, suggest improvements, and ask questions.
+
+**Protect Main Branch**: Prevents broken or incomplete code from reaching production.
+
+### Who Reviews PR?
+
+Typically, PRs are reviewed by:
+
+**Team Members**: Other developers on the project who understand the codebase.
+
+**Tech Lead or Senior Developer**: Someone with more experience who can provide architectural guidance.
+
+**Code Owners**: Developers responsible for specific parts of the codebase (if using GitHub's code owners feature).
+
+**The Author**: You review your own PR to catch mistakes before others see them.
+
+**Best Practice**: At least one other person should review your PR before it's merged. For critical changes (security, database migrations, infrastructure), require multiple approvals.
+
+### PR Naming Best Practices
+
+PR titles should be clear and descriptive, similar to commit messages but more concise:
+
+**Good PR Titles**:
+```
+feat: Add user authentication API endpoint
+fix: Resolve timeout error in payment processing
+refactor: Extract authentication logic into AuthService
+docs: Update API documentation for user endpoints
+```
+
+**Bad PR Titles**:
+```
+"update"
+"fix"
+"changes"
+"WIP"
+"PR"
+```
+
+**Format**: `<type>: <short description>`
+
+The title should give reviewers an immediate understanding of what the PR does.
+
+### What Must be Inside PR Description
+
+A well-written PR description helps reviewers understand your changes quickly. Always include:
+
+**1. What Was Done**
+- Summary of changes
+- Which files were modified
+- What features were added or bugs fixed
+
+**2. Why It Was Done**
+- The problem it solves
+- The business need or technical requirement
+- Context about why this approach was chosen
+
+**3. How It Was Tested**
+- What tests were added or updated
+- How you verified the changes work
+- Manual testing steps if applicable
+- Screenshots or examples if relevant
+
+**4. Related Issue**
+- Link to the GitHub issue this PR addresses
+- Reference ticket numbers if using external tracking
+
+**Example PR Description**:
+
+```markdown
+## What Was Done
+- Added POST /api/auth/login endpoint
+- Implemented JWT token generation on successful login
+- Added password validation (minimum 8 characters, must include number)
+- Created AuthService to handle authentication logic
+
+## Why It Was Done
+This PR addresses issue #123. Users need to be able to log in to the application.
+The authentication was previously handled by a third-party service that we're migrating away from.
+
+## How It Was Tested
+- Added unit tests for AuthService (test_auth_service.py)
+- Added integration tests for login endpoint (test_login_api.py)
+- Manually tested with Postman:
+  - Valid credentials return 200 with JWT token
+  - Invalid credentials return 401
+  - Missing fields return 400
+- Tested password validation rules
+
+## Related Issue
+Closes #123
+```
+
+### Code Review Basics
+
+Code review is the process of examining someone else's code before it's merged. Here's how to approach it:
+
+**As a Reviewer**:
+- Read the PR description first to understand the context
+- Review the code changes carefully
+- Check for bugs, security issues, and code quality
+- Look for adherence to team standards
+- Provide constructive feedback
+- Ask questions if something is unclear
+- Be respectful and professional
+
+**As an Author**:
+- Respond to all comments
+- Make requested changes or explain why you disagree
+- Update the PR when you make changes
+- Don't take feedback personally - it's about the code, not you
+
+### When to Approve
+
+Approve a PR when:
+- The code is correct and solves the stated problem
+- It follows team coding standards and conventions
+- Tests are included and passing
+- The PR description is clear and complete
+- No security concerns or breaking changes
+- Code is readable and maintainable
+- You understand what the code does
+
+**Approving means**: "I've reviewed this code and I'm confident it's ready to merge."
+
+### When to Request Changes
+
+Request changes when:
+- There are bugs or logical errors
+- Code doesn't follow team standards
+- Security concerns exist
+- Tests are missing or inadequate
+- Code is unclear or hard to understand
+- The PR description is incomplete
+- Breaking changes aren't documented
+- Performance issues are present
+
+**Requesting changes means**: "This needs work before it can be merged. Please address my comments."
+
+**Be Specific**: When requesting changes, explain what's wrong and suggest how to fix it. Vague comments like "this looks wrong" aren't helpful.
+
+### Why No One Should Push Directly to main
+
+Pushing directly to `main` (or `master`) bypasses the review process and is dangerous because:
+
+**No Code Review**: Code goes to production without anyone else checking it for bugs or issues.
+
+**No Quality Control**: Automated tests and checks might be skipped.
+
+**Risk of Breaking Production**: A single mistake can break the application for all users.
+
+**No Documentation**: Changes aren't documented through PR descriptions and discussions.
+
+**Knowledge Silos**: Other team members don't learn about changes.
+
+**Difficult Rollback**: If something breaks, it's harder to identify what went wrong.
+
+**Best Practice**: Always work in a branch and create a PR, even for small changes. This maintains consistency and safety.
+
+**Exception**: Only in true emergencies (production is down) might you push directly to main, and even then, create a PR immediately after to document what happened.
+
+---
+
+
 
 
 
